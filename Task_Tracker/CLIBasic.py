@@ -25,7 +25,7 @@ def MostrarTareas():
     else:
         print("Tareas disponibles:")
         for i,(k, v) in enumerate(Tarea.items(), start=1):
-            print(f"{1}, {k}: {v}")
+            print(f"{i}, {k}: {v}")
 
 
 def Iniciar():
