@@ -4,7 +4,7 @@ import json
 import os
 init(autoreset=True)
 
-archivo_json = "tareas.json"
+archivo_json = os.path.join(os.path.dirname(__file__), "tareas.json")
 
 if os.path.exists(archivo_json):
     with open(archivo_json, "r") as archivo:
