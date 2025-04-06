@@ -2,7 +2,7 @@ from datetime import datetime
 from colorama import Fore, init
 import json
 import os
-init()
+init(autoreset=True)
 
 archivo_json = "tareas.json"
 
@@ -34,45 +34,49 @@ def MostrarTareas():
 
 def Iniciar():
     Opcion = int(input("Digite el numero segun la opcion que desea usar "))
-    match Opcion:
-        case 1:
-            AddTarea = input("Agregue una nueva tarea ")
-            fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M")
-            Tarea[AddTarea] = {"estado": "pendiente", "Fecha":fecha_actual}
-            guardar_tareas()
-            print(Fore.GREEN + "✅ Tarea agregada con éxito.")
-        case 2:  
-            MostrarTareas()
-            clave_antigua = input("Escribe la tarea que quieres actualizar ")
-            if clave_antigua in Tarea:
-                clave_nueva = input("Escribre la nueva tarea ")
-                valor_nuevo =  input("Marca la nueva tarea 'en proceso' o 'Terminada' ")
+    if Opcion >=1 and Opcion <=5:
+        match Opcion:
+            case 1:
+                AddTarea = input("Agregue una nueva tarea ")
                 fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M")
-                Tarea[clave_nueva] = {"estado": valor_nuevo, "fecha":fecha_actual}
-                del Tarea[clave_antigua]
+                Tarea[AddTarea] = {"estado": "pendiente", "Fecha":fecha_actual}
                 guardar_tareas()
-                print(Fore.GREEN +  "✅ Tarea actualizada con éxito.")
-            else:
-                print(Fore.RED + "❌ No se encontró la tarea.")
-        case 3:
-            MostrarTareas()
-            remover = input("Ingrese ")
-            del Tarea[remover]
-            guardar_tareas()
-            print(Fore.GREEN + "✅ Tarea eliminada con éxito.")
-        case 4:
-            MostrarTareas()
-            tarea = input("Escriba la tarea que desea marcar como 'en proceso' o 'terminada' ")
-            if tarea in Tarea:
-                estado = input("Escriba 'en proceso' o 'Terminada'")
-                fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M")
-                Tarea[tarea] = {"estado":estado, "fecha": fecha_actual}
+                print(Fore.GREEN + "✅ Tarea agregada con éxito.")
+                MostrarTareas()
+            case 2:  
+                MostrarTareas()
+                clave_antigua = input("Escribe la tarea que quieres actualizar ")
+                if clave_antigua in Tarea:
+                    clave_nueva = input("Escribre la nueva tarea ")
+                    valor_nuevo =  input("Marca la nueva tarea 'en proceso' o 'Terminada' ")
+                    fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M")
+                    Tarea[clave_nueva] = {"estado": valor_nuevo, "fecha":fecha_actual}
+                    del Tarea[clave_antigua]
+                    guardar_tareas()
+                    print(Fore.GREEN +  "✅ Tarea actualizada con éxito.")
+                else:
+                    print(Fore.RED + "❌ No se encontró la tarea.")
+            case 3:
+                MostrarTareas()
+                remover = input("Ingrese ")
+                del Tarea[remover]
                 guardar_tareas()
-                print(Fore.GREEN + "✅ Estado actualizado con éxito.")
-            else:
-                print(Fore.RED + "❌ No se encontró la tarea.")
-        case 5:
-            MostrarTareas()
+                print(Fore.GREEN + "✅ Tarea eliminada con éxito.")
+            case 4:
+                MostrarTareas()
+                tarea = input("Escriba la tarea que desea marcar como 'en proceso' o 'terminada' ")
+                if tarea in Tarea:
+                    estado = input("Escriba 'en proceso' o 'Terminada'")
+                    fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M")
+                    Tarea[tarea] = {"estado":estado, "fecha": fecha_actual}
+                    guardar_tareas()
+                    print(Fore.GREEN + "✅ Estado actualizado con éxito.")
+                else:
+                    print(Fore.RED + "❌ No se encontró la tarea.")
+            case 5:
+                MostrarTareas()
+    else:
+        print(Fore.RED + "❌ Dijite un numero valido")
     Iniciar()
 
 def Pregunta():
@@ -81,7 +85,7 @@ def Pregunta():
         Opciones()
         Iniciar()
     else:
-        print("Digita 'Start'")
+        print(Fore.RED + "❌ Digita 'Start'")
         Pregunta()
 
 
