@@ -1,6 +1,8 @@
 from datetime import datetime
+from colorama import Fore, init
 import json
 import os
+init()
 
 archivo_json = "tareas.json"
 
@@ -25,7 +27,9 @@ def MostrarTareas():
     else:
         print("Tareas disponibles:")
         for i,(k, v) in enumerate(Tarea.items(), start=1):
-            print(f"{i}, {k}: {v}")
+            estado = v.get("estado", "No definido")
+            fecha = v.get("fecha", "No definida")
+            print(f"{i}. {k} - Estado: {estado}, Fecha: {fecha} ")
 
 
 def Iniciar():
@@ -34,10 +38,9 @@ def Iniciar():
         case 1:
             AddTarea = input("Agregue una nueva tarea ")
             fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M")
-            Tarea[AddTarea] = None
-            Tarea[fecha_actual] = AddTarea
+            Tarea[AddTarea] = {"estado": "pendiente", "Fecha":fecha_actual}
             guardar_tareas()
-            print("exito", "Tarea agregada con éxito.")
+            print(Fore.GREEN + "✅ Tarea agregada con éxito.")
         case 2:  
             MostrarTareas()
             clave_antigua = input("Escribe la tarea que quieres actualizar ")
@@ -45,28 +48,29 @@ def Iniciar():
                 clave_nueva = input("Escribre la nueva tarea ")
                 valor_nuevo =  input("Marca la nueva tarea 'en proceso' o 'Terminada' ")
                 fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M")
-                Tarea[clave_nueva] = valor_nuevo
+                Tarea[clave_nueva] = {"estado": valor_nuevo, "fecha":fecha_actual}
                 del Tarea[clave_antigua]
                 guardar_tareas()
-                print("exito", "Tarea actualizada con éxito.")
+                print(Fore.GREEN +  "✅ Tarea actualizada con éxito.")
             else:
-                print("error", "No se encontró la tarea.")
+                print(Fore.RED + "❌ No se encontró la tarea.")
         case 3:
             MostrarTareas()
             remover = input("Ingrese ")
             del Tarea[remover]
             guardar_tareas()
-            print("exito", "Tarea eliminada con éxito.")
+            print(Fore.GREEN + "✅ Tarea eliminada con éxito.")
         case 4:
             MostrarTareas()
             tarea = input("Escriba la tarea que desea marcar como 'en proceso' o 'terminada' ")
             if tarea in Tarea:
-                estado = input("Escriva 'en proceso' o 'Terminada'")
-                Tarea[tarea] = estado
+                estado = input("Escriba 'en proceso' o 'Terminada'")
+                fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M")
+                Tarea[tarea] = {"estado":estado, "fecha": fecha_actual}
                 guardar_tareas()
-                print("exito", "Estado actualizado con éxito.")
+                print(Fore.GREEN + "✅ Estado actualizado con éxito.")
             else:
-                print("error", "No se encontró la tarea.")
+                print(Fore.RED + "❌ No se encontró la tarea.")
         case 5:
             MostrarTareas()
     Iniciar()
