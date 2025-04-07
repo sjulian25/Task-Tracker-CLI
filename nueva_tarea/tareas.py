@@ -20,6 +20,6 @@ class Tareas:
         return self.__nombre
     def setmodificacion(self):
         self.modificacion= datetime.now().strftime('%Y/%m/%d %H:%M')
-    def setestado(self,estado):
+    def setestado(self,id):
         self.estado=estado
 

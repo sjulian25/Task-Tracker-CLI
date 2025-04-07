@@ -16,17 +16,47 @@ def agregar_tarea():
         'Modificacion': compromiso.getmodificacion()
     }
     tareas.append(tarea)
-    guardar_json()
+    guardar_json(tareas)
     
-def guardar_json():
+def guardar_json(tareas):
     with open(ARCHIVO_JSON,'w') as archivo:
         json.dump(tareas,archivo,indent=4)
+        print('Cambio guardao con exito')
+
+    
+
+def mostrar():
+    print('Estoy aca')
+    with open(ARCHIVO_JSON,'r') as archivo:
+        actividad = json.load(archivo)
+
+    for i in actividad:
+        print(f"Id: {i['Id']}\nDescripcion: {i['Descripcion']}\nFecha: {i['Fecha']}\nEstado: {i['Estado']}\nModificacion: {i['Modificacion']}")
+        print('*'*35)
+
+def cambia_estado():
+    id = input('Ingrese el ID de la tarea')
+    with open(ARCHIVO_JSON,'r') as archivo:
+        tareas = json.load(archivo)
+
+    encontrado=False
+
+    for i in tareas:
+        if i['Id']== id:
+            i['Estado'] = 'Terminado'
+            print(i['Estado'])
+            encontrado = True
+
+    if encontrado:
+        guardar_json(tareas)
+    else:
+        print('No se encontrado la tarea con Id:{id}')
+        
+    
+    
     
 
 
-""" def cambia_estado():
-    id = input('Ingrese el ID de la tarea')
-    estado = input('Ingrese el nuevo estado de actividad (completada o pendiente)')
-    tareas.getestado(estado,id) """
+
 
 
