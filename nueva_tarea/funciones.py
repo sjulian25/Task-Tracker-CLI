@@ -6,6 +6,12 @@ ruta_base = os.path.dirname(__file__)
 ARCHIVO_JSON = os.path.join(ruta_base,'archivo_json.json')
 tareas=[]
 def agregar_tarea():
+    try:
+        with open(ARCHIVO_JSON,'r') as archivo:
+            tareas = json.load(archivo)
+    except FileNotFoundError:
+        tareas = []
+
     actividad = input('Escriba el nombre de la tarea ')
     compromiso = Tareas(actividad)#agregar el objeto a una base de datos
     tarea = {
@@ -26,7 +32,6 @@ def guardar_json(tareas):
     
 
 def mostrar():
-    print('Estoy aca')
     with open(ARCHIVO_JSON,'r') as archivo:
         actividad = json.load(archivo)
 
