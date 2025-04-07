@@ -49,19 +49,31 @@ def cambia_estado():
     for i in tareas:
         if i['Id']== id:
             i['Estado'] = 'Terminado'
-            print(i['Estado'])
             encontrado = True
+            break
 
     if encontrado:
         guardar_json(tareas)
     else:
         print('No se encontrado la tarea con Id:{id}')
         
-    
-    
-    
 
+def eliminar_tareas():
+    id = input('Ingrese el ID de la tarea')
+    with open(ARCHIVO_JSON,'r') as archivo:
+        tareas = json.load(archivo)
 
+    encontrado=False
+
+    for i in tareas:
+        if i['Id']==id:
+            tareas.remove(i)
+            encontrado=True
+            break
+    if encontrado:
+        guardar_json(tareas)
+    else:
+        print('No se encontrado la tarea con Id:{id}')
 
 
 
